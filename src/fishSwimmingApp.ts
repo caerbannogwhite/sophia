@@ -1,4 +1,4 @@
-import { ResponsiveCanvas, EventHandler } from './utils';
+import { ResponsiveCanvas } from './utils';
 import { fishBonePath } from './elements';
 import './style.css';
 
@@ -129,7 +129,7 @@ export class FishSwimmingApp {
   private draggedFish: Fish | null = null;
   private mouseX: number = 0;
   private mouseY: number = 0;
-  private eventHandler!: EventHandler;
+  // private eventHandler!: EventHandler;
   private animationId: number = 0;
   private lastFrameTime: number = 0;
   private targetFPS: number = 60;
@@ -175,12 +175,12 @@ export class FishSwimmingApp {
   }
 
   setupEventListeners() {
-    this.eventHandler = new EventHandler(
-      this.responsiveCanvas.getCanvas(),
-      (x, y) => this.handleMouseDown(x, y),
-      (x, y) => this.handleMouseMove(x, y),
-      () => this.handleMouseUp()
-    );
+    // this.eventHandler = new EventHandler(
+    //   this.responsiveCanvas.getCanvas(),
+    //   (x, y) => this.handleMouseDown(x, y),
+    //   (x, y) => this.handleMouseMove(x, y),
+    //   () => this.handleMouseUp()
+    // );
   }
 
   handleMouseDown(x: number, y: number) {

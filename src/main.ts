@@ -1,4 +1,4 @@
-import { ResponsiveCanvas, EventHandler, extractPathsAndFill } from './utils';
+import { ResponsiveCanvas, extractPathsAndFill } from './utils';
 import { FishSwimmingApp } from './fishSwimmingApp';
 import './style.css';
 import { crocodileSvg } from './elements';
@@ -287,7 +287,7 @@ class Crocodile {
 class CrocodileApp {
   private responsiveCanvas: ResponsiveCanvas;
   private crocodile: Crocodile;
-  private eventHandler!: EventHandler;
+  // private eventHandler!: EventHandler;
   private animationId: number = 0;
   private lastFrameTime: number = 0;
   private targetFPS: number = 60;
@@ -308,12 +308,12 @@ class CrocodileApp {
   }
 
   setupEventListeners() {
-    this.eventHandler = new EventHandler(
-      this.responsiveCanvas.getCanvas(),
-      (x, y) => this.handleMouseDown(x, y),
-      (x, y) => this.handleMouseMove(x, y),
-      () => this.handleMouseUp()
-    );
+    // this.eventHandler = new EventHandler(
+    //   this.responsiveCanvas.getCanvas(),
+    //   (x, y) => this.handleMouseDown(x, y),
+    //   (x, y) => this.handleMouseMove(x, y),
+    //   () => this.handleMouseUp()
+    // );
   }
 
   handleMouseDown(x: number, y: number) {
@@ -326,12 +326,12 @@ class CrocodileApp {
     }
   }
 
-  handleMouseMove(x: number, y: number) {
-    // Convert screen coordinates to canvas coordinates
-    const coords = this.responsiveCanvas.screenToCanvas(x, y);
+  // handleMouseMove(x: number, y: number) {
+  // Convert screen coordinates to canvas coordinates
+  // const coords = this.responsiveCanvas.screenToCanvas(x, y);
 
-    // Optional: Add hover effects here
-  }
+  // Optional: Add hover effects here
+  // }
 
   handleMouseUp() {
     // No dragging needed for crocodile
@@ -427,7 +427,7 @@ class FlowerFieldApp {
   private draggedFlower: Flower | null = null;
   private mouseX: number = 0;
   private mouseY: number = 0;
-  private eventHandler!: EventHandler;
+  // private eventHandler!: EventHandler;
   private animationId: number = 0;
   private lastFrameTime: number = 0;
   private targetFPS: number = 60;
@@ -473,12 +473,12 @@ class FlowerFieldApp {
   }
 
   setupEventListeners() {
-    this.eventHandler = new EventHandler(
-      this.responsiveCanvas.getCanvas(),
-      (x, y) => this.handleMouseDown(x, y),
-      (x, y) => this.handleMouseMove(x, y),
-      () => this.handleMouseUp()
-    );
+    // this.eventHandler = new EventHandler(
+    //   this.responsiveCanvas.getCanvas(),
+    //   (x, y) => this.handleMouseDown(x, y),
+    //   (x, y) => this.handleMouseMove(x, y),
+    //   () => this.handleMouseUp()
+    // );
   }
 
   handleMouseDown(x: number, y: number) {
