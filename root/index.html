@@ -1,34 +1,281 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interactive Nature Scenes</title>
-    <script type="module" crossorigin src="/assets/index-7-msEGWp.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DTZfKVNs.css">
-  </head>
-  <body>
-    <div id="app">
-      <h1>🌊 Interactive Nature Scenes 🌸</h1>
-      
-      <!-- Tab Navigation -->
-      <div class="tab-container">
-        <button class="tab-button active" data-tab="fish">🐠 Fish Swimming</button>
-        <button class="tab-button" data-tab="flowers">🌸 Flower Field</button>
-      </div>
 
-      <!-- Fish Scene -->
-      <div id="fish-scene" class="scene active">
-        <p>Click and drag to move the fishes around!</p>
-        <canvas id="fishCanvas" width="1200" height="800"></canvas>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Nature Scenes</title>
 
-      <!-- Flower Scene -->
-      <div id="flower-scene" class="scene">
-        <p>Click and drag to move the flowers around!</p>
-        <canvas id="flowerCanvas" width="1200" height="800"></canvas>
-      </div>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #006994, #004d6b, #00334a);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden
+    }
+
+    #app {
+      text-align: center;
+      padding: 20px;
+      border-radius: 20px;
+      background: #ffffff1a;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px #0000004d;
+      border: 1px solid rgba(255, 255, 255, .2);
+      position: relative
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, .5);
+      animation: glow 2s ease-in-out infinite alternate
+    }
+
+    @keyframes glow {
+      0% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, .5), 0 0 10px rgba(255, 255, 255, .3)
+      }
+
+      to {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, .5), 0 0 20px rgba(255, 255, 255, .6)
+      }
+    }
+
+    .tab-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px
+    }
+
+    .tab-button {
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all .3s ease;
+      background: #fff3;
+      color: #fff;
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, .3)
+    }
+
+    .tab-button:hover {
+      background: #ffffff4d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px #0003
+    }
+
+    .tab-button.active {
+      background: linear-gradient(45deg, #ff6b9d, #ffb6c1);
+      box-shadow: 0 4px 15px #ff6b9d66;
+      transform: translateY(-2px)
+    }
+
+    .scene {
+      display: none
+    }
+
+    #fish-scene.active {
+      display: block
+    }
+
+    p {
+      color: #b3e5fc;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, .3)
+    }
+
+    #fishCanvas,
+    #flowerCanvas {
+      border: 3px solid rgba(255, 255, 255, .3);
+      border-radius: 15px;
+      box-shadow: 0 0 20px #0096ff4d, inset 0 0 20px #0003;
+      cursor: crosshair;
+      transition: all .3s ease
+    }
+
+    #fishCanvas:hover,
+    #flowerCanvas:hover {
+      border-color: #ffffff80;
+      box-shadow: 0 0 30px #0096ff80, inset 0 0 20px #0003
+    }
+
+    #flower-scene p {
+      color: #ffb6c1
+    }
+
+    #flowerCanvas {
+      box-shadow: 0 0 20px #ffb6c14d, inset 0 0 20px #0000001a
+    }
+
+    #flowerCanvas:hover {
+      box-shadow: 0 0 30px #ffb6c180, inset 0 0 20px #0000001a
+    }
+
+    #fish-scene:before,
+    #fish-scene:after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 60px;
+      background: linear-gradient(to bottom, #4caf50, #2e7d32);
+      border-radius: 2px;
+      animation: seaweed 3s ease-in-out infinite
+    }
+
+    #fish-scene:before {
+      left: 20px;
+      top: 50%;
+      animation-delay: 0s
+    }
+
+    #fish-scene:after {
+      right: 20px;
+      top: 40%;
+      animation-delay: 1.5s
+    }
+
+    @keyframes seaweed {
+
+      0%,
+      to {
+        transform: rotate(-5deg)
+      }
+
+      50% {
+        transform: rotate(5deg)
+      }
+    }
+
+    #flower-scene:before,
+    #flower-scene:after {
+      content: "🌸";
+      position: absolute;
+      font-size: 2rem;
+      animation: float 4s ease-in-out infinite;
+      opacity: .7
+    }
+
+    #flower-scene:before {
+      left: 30px;
+      top: 30%;
+      animation-delay: 0s
+    }
+
+    #flower-scene:after {
+      right: 30px;
+      top: 60%;
+      animation-delay: 2s
+    }
+
+    @keyframes float {
+
+      0%,
+      to {
+        transform: translateY(0) rotate(0)
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(180deg)
+      }
+    }
+
+    @media (max-width: 1300px) {
+
+      #fishCanvas,
+      #flowerCanvas {
+        width: 90vw;
+        height: auto;
+        max-width: 1200px;
+        max-height: 800px
+      }
+
+      h1 {
+        font-size: 2rem
+      }
+
+      .tab-button {
+        padding: 10px 20px;
+        font-size: 1rem
+      }
+    }
+
+    @media (max-width: 768px) {
+      #app {
+        padding: 15px;
+        margin: 10px
+      }
+
+      h1 {
+        font-size: 1.5rem
+      }
+
+      p {
+        font-size: 1rem
+      }
+
+      #fishCanvas,
+      #flowerCanvas {
+        width: 95vw;
+        border-width: 2px
+      }
+
+      .tab-container {
+        flex-direction: column;
+        align-items: center
+      }
+
+      .tab-button {
+        width: 200px;
+        margin-bottom: 5px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>🌊 Interactive Nature Scenes 🌸</h1>
+
+    <!-- Tab Navigation -->
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="fish">🐠 Fish Swimming</button>
+      <button class="tab-button" data-tab="flowers">🌸 Flower Field</button>
     </div>
-  </body>
+
+    <!-- Fish Scene -->
+    <div id="fish-scene" class="scene active">
+      <p>Click and drag to move the fishes around!</p>
+      <canvas id="fishCanvas" width="1200" height="800"></canvas>
+    </div>
+
+    <!-- Flower Scene -->
+    <div id="flower-scene" class="scene">
+      <p>Click and drag to move the flowers around!</p>
+      <canvas id="flowerCanvas" width="1200" height="800"></canvas>
+    </div>
+  </div>
+  <script type="module" crossorigin>
+    (function () { const t = document.createElement("link").relList; if (t && t.supports && t.supports("modulepreload")) return; for (const e of document.querySelectorAll('link[rel="modulepreload"]')) i(e); new MutationObserver(e => { for (const o of e) if (o.type === "childList") for (const a of o.addedNodes) a.tagName === "LINK" && a.rel === "modulepreload" && i(a) }).observe(document, { childList: !0, subtree: !0 }); function s(e) { const o = {}; return e.integrity && (o.integrity = e.integrity), e.referrerPolicy && (o.referrerPolicy = e.referrerPolicy), e.crossOrigin === "use-credentials" ? o.credentials = "include" : e.crossOrigin === "anonymous" ? o.credentials = "omit" : o.credentials = "same-origin", o } function i(e) { if (e.ep) return; e.ep = !0; const o = s(e); fetch(e.href, o) } })(); class n { x; y; vx; vy; size; color; direction; tailAngle; tailSpeed; constructor(t, s) { this.x = t, this.y = s, this.vx = (Math.random() - .5) * 2, this.vy = (Math.random() - .5) * 1, this.size = Math.random() * 20 + 15, this.color = `hsl(${Math.random() * 60 + 180}, 70%, 50%)`, this.direction = Math.random() > .5 ? 1 : -1, this.tailAngle = 0, this.tailSpeed = Math.random() * .2 + .1 } update() { this.x += this.vx, this.y += this.vy, (this.x < 0 || this.x > 1200) && (this.vx *= -1, this.direction *= -1), (this.y < 0 || this.y > 800) && (this.vy *= -1), this.x = Math.max(0, Math.min(1200, this.x)), this.y = Math.max(0, Math.min(800, this.y)), this.tailAngle += this.tailSpeed } draw(t) { t.save(), t.translate(this.x, this.y), t.scale(this.direction, 1), t.fillStyle = this.color, t.beginPath(), t.ellipse(0, 0, this.size, this.size * .6, 0, 0, Math.PI * 2), t.fill(), t.fillStyle = this.color, t.beginPath(), t.moveTo(-this.size * .8, 0), t.lineTo(-this.size * 1.5, -this.size * .3 * Math.sin(this.tailAngle)), t.lineTo(-this.size * 1.5, this.size * .3 * Math.sin(this.tailAngle)), t.closePath(), t.fill(), t.fillStyle = "white", t.beginPath(), t.arc(this.size * .3, -this.size * .2, this.size * .15, 0, Math.PI * 2), t.fill(), t.fillStyle = "black", t.beginPath(), t.arc(this.size * .35, -this.size * .2, this.size * .08, 0, Math.PI * 2), t.fill(), t.fillStyle = this.color, t.beginPath(), t.moveTo(0, -this.size * .4), t.lineTo(-this.size * .3, -this.size * .6), t.lineTo(-this.size * .1, -this.size * .4), t.closePath(), t.fill(), t.restore() } contains(t, s) { const i = t - this.x, e = s - this.y; return i * i + e * e < this.size * this.size } moveTo(t, s) { this.x = t, this.y = s, this.vx = (Math.random() - .5) * 3, this.vy = (Math.random() - .5) * 2 } } class l { x; y; size; color; petalCount; rotation; swayAngle; swaySpeed; stemHeight; constructor(t, s) { this.x = t, this.y = s, this.size = Math.random() * 15 + 10, this.color = this.getRandomFlowerColor(), this.petalCount = Math.floor(Math.random() * 6) + 5, this.rotation = Math.random() * Math.PI * 2, this.swayAngle = Math.random() * Math.PI * 2, this.swaySpeed = Math.random() * .02 + .01, this.stemHeight = Math.random() * 40 + 30 } getRandomFlowerColor() { const t = ["#FF6B9D", "#FFB6C1", "#FF69B4", "#FF1493", "#FF4500", "#FF6347", "#FFD700", "#FFFF00", "#98FB98", "#87CEEB", "#DDA0DD", "#F0E68C", "#FFA07A", "#E6E6FA", "#FFE4E1"]; return t[Math.floor(Math.random() * t.length)] } update() { this.swayAngle += this.swaySpeed } draw(t) { t.save(), t.translate(this.x, this.y); const s = Math.sin(this.swayAngle) * 2; t.rotate(s * .02), t.strokeStyle = "#228B22", t.lineWidth = 2, t.beginPath(), t.moveTo(0, 0), t.lineTo(0, -this.stemHeight), t.stroke(), t.fillStyle = "#32CD32", t.beginPath(), t.ellipse(-5, -this.stemHeight * .3, 8, 4, Math.PI / 4, 0, Math.PI * 2), t.fill(), t.beginPath(), t.ellipse(5, -this.stemHeight * .7, 8, 4, -Math.PI / 4, 0, Math.PI * 2), t.fill(), t.translate(0, -this.stemHeight), t.rotate(this.rotation); for (let i = 0; i < this.petalCount; i++) { const e = i / this.petalCount * Math.PI * 2; t.save(), t.rotate(e), t.fillStyle = this.color, t.beginPath(), t.ellipse(this.size * .8, 0, this.size, this.size * .4, 0, 0, Math.PI * 2), t.fill(), t.restore() } t.fillStyle = "#FFD700", t.beginPath(), t.arc(0, 0, this.size * .3, 0, Math.PI * 2), t.fill(), t.restore() } contains(t, s) { const i = t - this.x, e = s - (this.y - this.stemHeight); return i * i + e * e < this.size * this.size * 2 } moveTo(t, s) { this.x = t, this.y = s } } class r { x; y; vx; vy; size; wingAngle; wingSpeed; color; constructor(t, s) { this.x = t, this.y = s, this.vx = (Math.random() - .5) * 3, this.vy = (Math.random() - .5) * 2, this.size = Math.random() * 8 + 6, this.wingAngle = 0, this.wingSpeed = Math.random() * .3 + .2, this.color = `hsl(${Math.random() * 60 + 300}, 70%, 60%)` } update() { this.x += this.vx, this.y += this.vy, (this.x < 0 || this.x > 1200) && (this.vx *= -1), (this.y < 0 || this.y > 800) && (this.vy *= -1), this.x = Math.max(0, Math.min(1200, this.x)), this.y = Math.max(0, Math.min(800, this.y)), this.wingAngle += this.wingSpeed } draw(t) { t.save(), t.translate(this.x, this.y), t.fillStyle = "#333", t.fillRect(-1, -this.size * .3, 2, this.size * .6), t.fillStyle = this.color; const s = Math.sin(this.wingAngle) * .3; t.save(), t.rotate(-.5 + s), t.beginPath(), t.ellipse(-this.size * .8, 0, this.size * .6, this.size * .4, 0, 0, Math.PI * 2), t.fill(), t.restore(), t.save(), t.rotate(.5 - s), t.beginPath(), t.ellipse(this.size * .8, 0, this.size * .6, this.size * .4, 0, 0, Math.PI * 2), t.fill(), t.restore(), t.restore() } } class d { x; y; size; speed; opacity; constructor(t, s) { this.x = t, this.y = s, this.size = Math.random() * 8 + 4, this.speed = Math.random() * 2 + 1, this.opacity = Math.random() * .5 + .3 } update() { this.y -= this.speed, this.y < -this.size && (this.y = 800 + this.size, this.x = Math.random() * 1200) } draw(t) { t.save(), t.globalAlpha = this.opacity, t.fillStyle = "rgba(255, 255, 255, 0.6)", t.beginPath(), t.arc(this.x, this.y, this.size, 0, Math.PI * 2), t.fill(), t.restore() } } class c { canvas; ctx; fishes; bubbles; isDragging = !1; draggedFish = null; mouseX = 0; mouseY = 0; constructor() { this.canvas = document.getElementById("fishCanvas"), this.ctx = this.canvas.getContext("2d"), this.fishes = [], this.bubbles = [], this.init(), this.setupEventListeners(), this.animate() } init() { for (let t = 0; t < 8; t++)this.fishes.push(new n(Math.random() * 1200, Math.random() * 800)); for (let t = 0; t < 20; t++)this.bubbles.push(new d(Math.random() * 1200, Math.random() * 800)) } setupEventListeners() { this.canvas.addEventListener("mousedown", t => this.handleMouseDown(t)), this.canvas.addEventListener("mousemove", t => this.handleMouseMove(t)), this.canvas.addEventListener("mouseup", () => this.handleMouseUp()), this.canvas.addEventListener("mouseleave", () => this.handleMouseUp()) } handleMouseDown(t) { const s = this.canvas.getBoundingClientRect(), i = t.clientX - s.left, e = t.clientY - s.top; for (const o of this.fishes) if (o.contains(i, e)) { this.isDragging = !0, this.draggedFish = o, this.mouseX = i, this.mouseY = e; break } } handleMouseMove(t) { const s = this.canvas.getBoundingClientRect(), i = t.clientX - s.left, e = t.clientY - s.top; this.isDragging && this.draggedFish && this.draggedFish.moveTo(i, e), this.mouseX = i, this.mouseY = e } handleMouseUp() { this.isDragging = !1, this.draggedFish = null } drawBackground() { const t = this.ctx.createLinearGradient(0, 0, 0, 800); t.addColorStop(0, "#006994"), t.addColorStop(.5, "#004d6b"), t.addColorStop(1, "#00334a"), this.ctx.fillStyle = t, this.ctx.fillRect(0, 0, 1200, 800), this.ctx.strokeStyle = "rgba(255, 255, 255, 0.1)", this.ctx.lineWidth = 2; for (let s = 0; s < 5; s++) { const i = (s + 1) * 200 + Math.sin(Date.now() * .001 + s) * 50; this.ctx.beginPath(), this.ctx.moveTo(i, 0), this.ctx.lineTo(i + 100, 800), this.ctx.stroke() } } animate() { this.ctx.clearRect(0, 0, 1200, 800), this.drawBackground(); for (const t of this.bubbles) t.update(), t.draw(this.ctx); for (const t of this.fishes) t.update(), t.draw(this.ctx); this.isDragging && (this.ctx.strokeStyle = "rgba(255, 255, 255, 0.8)", this.ctx.lineWidth = 2, this.ctx.setLineDash([5, 5]), this.ctx.beginPath(), this.ctx.arc(this.mouseX, this.mouseY, 30, 0, Math.PI * 2), this.ctx.stroke(), this.ctx.setLineDash([])), requestAnimationFrame(() => this.animate()) } } class g { canvas; ctx; flowers; butterflies; isDragging = !1; draggedFlower = null; mouseX = 0; mouseY = 0; constructor() { this.canvas = document.getElementById("flowerCanvas"), this.ctx = this.canvas.getContext("2d"), this.flowers = [], this.butterflies = [], this.init(), this.setupEventListeners(), this.animate() } init() { for (let t = 0; t < 25; t++)this.flowers.push(new l(Math.random() * 1200, Math.random() * 800)); for (let t = 0; t < 5; t++)this.butterflies.push(new r(Math.random() * 1200, Math.random() * 800)) } setupEventListeners() { this.canvas.addEventListener("mousedown", t => this.handleMouseDown(t)), this.canvas.addEventListener("mousemove", t => this.handleMouseMove(t)), this.canvas.addEventListener("mouseup", () => this.handleMouseUp()), this.canvas.addEventListener("mouseleave", () => this.handleMouseUp()) } handleMouseDown(t) { const s = this.canvas.getBoundingClientRect(), i = t.clientX - s.left, e = t.clientY - s.top; for (const o of this.flowers) if (o.contains(i, e)) { this.isDragging = !0, this.draggedFlower = o, this.mouseX = i, this.mouseY = e; break } } handleMouseMove(t) { const s = this.canvas.getBoundingClientRect(), i = t.clientX - s.left, e = t.clientY - s.top; this.isDragging && this.draggedFlower && this.draggedFlower.moveTo(i, e), this.mouseX = i, this.mouseY = e } handleMouseUp() { this.isDragging = !1, this.draggedFlower = null } drawBackground() { const t = this.ctx.createLinearGradient(0, 0, 0, 800); t.addColorStop(0, "#87CEEB"), t.addColorStop(.7, "#98FB98"), t.addColorStop(1, "#90EE90"), this.ctx.fillStyle = t, this.ctx.fillRect(0, 0, 1200, 800), this.ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; for (let s = 0; s < 3; s++) { const i = s * 400 + Math.sin(Date.now() * 5e-4 + s) * 50, e = 100 + Math.sin(Date.now() * 3e-4 + s) * 30; this.ctx.beginPath(), this.ctx.arc(i, e, 40, 0, Math.PI * 2), this.ctx.arc(i + 30, e, 35, 0, Math.PI * 2), this.ctx.arc(i + 60, e, 40, 0, Math.PI * 2), this.ctx.arc(i + 30, e - 20, 30, 0, Math.PI * 2), this.ctx.fill() } } animate() { this.ctx.clearRect(0, 0, 1200, 800), this.drawBackground(); for (const t of this.flowers) t.update(), t.draw(this.ctx); for (const t of this.butterflies) t.update(), t.draw(this.ctx); this.isDragging && (this.ctx.strokeStyle = "rgba(255, 255, 255, 0.8)", this.ctx.lineWidth = 2, this.ctx.setLineDash([5, 5]), this.ctx.beginPath(), this.ctx.arc(this.mouseX, this.mouseY, 30, 0, Math.PI * 2), this.ctx.stroke(), this.ctx.setLineDash([])), requestAnimationFrame(() => this.animate()) } } function u() { const h = document.querySelector('[data-tab="fish"]'), t = document.querySelector('[data-tab="flowers"]'), s = document.getElementById("fish-scene"), i = document.getElementById("flower-scene"); console.log("Setting up tabs..."), console.log("Fish button:", h), console.log("Flower button:", t), console.log("Fish scene:", s), console.log("Flower scene:", i); function e() { console.log("Showing fish scene"), h.classList.add("active"), t.classList.remove("active"), s.style.display = "block", i.style.display = "none" } function o() { console.log("Showing flower scene"), t.classList.add("active"), h.classList.remove("active"), i.style.display = "block", s.style.display = "none" } h && t && s && i ? (h.addEventListener("click", e), t.addEventListener("click", o), console.log("Tab event listeners added successfully")) : console.error("Some elements not found for tab setup") } document.addEventListener("DOMContentLoaded", () => { console.log("DOM loaded, initializing apps..."), u(), setTimeout(() => { try { console.log("Initializing fish app..."), new c, console.log("Fish app initialized successfully") } catch (h) { console.error("Error initializing fish app:", h) } try { console.log("Initializing flower app..."), new g, console.log("Flower app initialized successfully") } catch (h) { console.error("Error initializing flower app:", h) } }, 500) });
+  </script>
+</body>
+
 </html>
