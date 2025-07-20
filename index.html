@@ -1,33 +1,51 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interactive Nature Scenes</title>
-  </head>
-  <body>
-    <div id="app">
-      <h1>🌊 Interactive Nature Scenes 🌸</h1>
-      
-      <!-- Tab Navigation -->
-      <div class="tab-container">
-        <button class="tab-button active" data-tab="fish">🐠 Fish Swimming</button>
-        <button class="tab-button" data-tab="flowers">🌸 Flower Field</button>
-      </div>
 
-      <!-- Fish Scene -->
-      <div id="fish-scene" class="scene active">
-        <p>Click and drag to move the fishes around!</p>
-        <canvas id="fishCanvas" width="1200" height="800"></canvas>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#006994" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Le Storie di Sophia" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <title>Le Storie di Sophia</title>
+</head>
 
-      <!-- Flower Scene -->
-      <div id="flower-scene" class="scene">
-        <p>Click and drag to move the flowers around!</p>
-        <canvas id="flowerCanvas" width="1200" height="800"></canvas>
-      </div>
+<body>
+  <div id="app">
+    <h1>🌊 Le Storie di Sophia 🌸</h1>
+
+    <!-- Tab Navigation -->
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="fish">🐠 I Pesciolini Che Nuotano</button>
+      <button class="tab-button" data-tab="flowers">🌸 I Fiori Che Volano</button>
+      <button class="tab-button" data-tab="crocodile">🐊 Il Coccodrillo Gentile</button>
     </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+    <!-- Fish Scene -->
+    <div id="fish-scene" class="scene active">
+      <p>Tap and drag to move the fishes around!</p>
+      <canvas id="fishCanvas" width="1200" height="800"></canvas>
+    </div>
+
+    <!-- Flower Scene -->
+    <div id="flower-scene" class="scene">
+      <p>Tap and drag to move the flowers around!</p>
+      <canvas id="flowerCanvas" width="1200" height="800"></canvas>
+    </div>
+
+    <!-- Crocodile Scene -->
+    <div id="crocodile-scene" class="scene">
+      <p>Tap the crocodile's mouth to interact with it!</p>
+      <canvas id="crocodileCanvas" width="1200" height="800"></canvas>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
